@@ -12,20 +12,29 @@ parameters:
     type: string
     default: "3.1.2" # Databricks 9.1 LTS
 
+resources:
+  containers:
+  - container: java_maven
+    image: mcr.microsoft.com/java/maven:8-zulu-debian10
+
 stages:
 - stage: BuildPublishSparkListenerJars
   displayName: Build Pyspark Dev Image if Needed
   jobs:
   - job: BuildPublishJARs
+    container: java_maven
     steps:
     - script: |
-        docker run --rm -v "$(pwd):/spark-monitoring" -w /spark-monitoring/src mcr.microsoft.com/java/maven:8-zulu-debian10 mvn install -P "scala-${{ parameters.ScalaVersion }}_spark-${{ parameters.SparkVersion }}"
-      displayName: Build jars in docker image
+        cd src
+        mvn install -P "scala-${{ parameters.ScalaVersion }}_spark-${{ parameters.SparkVersion }}"
+      displayName: Build jars
 
     - script: |
         pwd
         cd $(Pipeline.Workspace)/src/target
+        which spark-listeners_${{ parameters.SparkVersion }}_${{ parameters.ScalaVersion }}-1.0.0.jar
         ls -l
+      continueOnError: true
 
     - task: UniversalPackages@0
       displayName: Universal Publish Spark-Listeners
