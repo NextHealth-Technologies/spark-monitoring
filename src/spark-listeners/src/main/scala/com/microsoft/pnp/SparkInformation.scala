@@ -17,6 +17,8 @@ object SparkInformation {
   private val DB_CLUSTER_ID_ENVIRONMENT_VARIABLE = "DB_CLUSTER_ID"
   private val DB_CLUSTER_NAME_ENVIRONMENT_VARIABLE = "DB_CLUSTER_NAME"
 
+  private val CUSTOM_LOGGING_FIELDS = "STATIC_LOG_FIELDS"
+
   def get(): Map[String, String] = {
     // We might want to improve this to pull valid class names from the beginning of the command
     val className = "^(\\S*).*$".r
@@ -65,8 +67,24 @@ object SparkInformation {
       }
     }
 
+    val staticFields = sys.env.get(CUSTOM_LOGGING_FIELDS) match {
+      case Some(e) =>
+        e.split(",").map(x => x.split("=")  match {
+          case e if e.length == 2 => {
+            e(0).trim -> Some(e(1).trim)
+          }
+          case _ =>
+            throw new IllegalArgumentException(s"Incorrect entry '$x' found." +
+              s" Field entries should be comma separated and in the form '[key]=[value]'")
+        }).toMap
+      case None =>
+        Map.empty[String, Option[String]]
+    }
+
+    val fields = sparkInfo ++ staticFields
+
     // We will remove None values and convert to Map[String, String] to make conversion
     // less painful.
-    for ((k, Some(v)) <- sparkInfo ) yield k -> v
+    for ((k, Some(v)) <- fields ) yield k -> v
   }
 }
