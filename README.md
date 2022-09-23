@@ -27,23 +27,22 @@ Before you begin, ensure you have the following prerequisites in place:
 
 * Clone or download this GitHub repository.
 * An active Azure Databricks workspace. For instructions on how to deploy an Azure Databricks workspace, see [get started with Azure Databricks.](https://docs.microsoft.com/azure/azure-databricks/quickstart-create-databricks-workspace-portal).
-* Install the [Azure Databricks CLI](https://docs.databricks.com/user-guide/dev-tools/databricks-cli.html#install-the-cli).
-  * An Azure Databricks personal access token is required to use the CLI. For instructions, see [token management](https://docs.azuredatabricks.net/api/latest/authentication.html#token-management).
+* Install the [Azure Databricks CLI](https://docs.microsoft.com/azure/databricks/dev-tools/cli/#install-the-cli).
+  * An Azure Databricks personal access token or Azure AD token is required to use the CLI. For instructions, see [Set up authentication](https://docs.microsoft.com/azure/databricks/dev-tools/cli/#--set-up-authentication).
   * You can also use the Azure Databricks CLI from the Azure Cloud Shell.
 * A Java IDE, with the following resources:
   * [Java Devlopment Kit (JDK) version 1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
-  * [Scala language SDK 2.11 and/or 2.12](https://www.scala-lang.org/download/)
+  * [Scala language SDK 2.12](https://www.scala-lang.org/download/)
   * [Apache Maven 3.6.3](https://maven.apache.org/download.html)
 
 ### Supported configurations
 
 | Databricks Runtime(s) | Maven Profile |
 | -- | -- |
-| `6.4 Extended Support` | `scala-2.11_spark-2.4.5` |
 | `7.3 LTS` | `scala-2.12_spark-3.0.1` |
 | `9.1 LTS` | `scala-2.12_spark-3.1.2` |
-| `10.1` - `10.2` | `scala-2.12_spark-3.2.0` |
 | `10.3` - `10.5` | `scala-2.12_spark-3.2.1` |
+| `11.0` | Not currently supported due to changes in [Log4j version](https://docs.microsoft.com/azure/databricks/release-notes/runtime/11.0#log4j-is-upgraded-from-log4j-1-to-log4j-2) |
 
 ## Logging Event Size Limit
 
@@ -185,7 +184,7 @@ databricks runtime from the [supported configurations section](#supported-config
     docker run -it --rm -v %cd%/sample/spark-sample-job:/spark-sample-job -v "%USERPROFILE%/.m2":/root/.m2 -w /spark-sample-job mcr.microsoft.com/java/maven:8-zulu-debian10 mvn install -P <maven-profile>
     ```
 
-1. Navigate to your Databricks workspace and create a new job, as described [here](https://docs.azuredatabricks.net/user-guide/jobs.html#create-a-job).
+1. Navigate to your Databricks workspace and create a new job, as described [here](https://docs.microsoft.com/azure/databricks/workflows/jobs/jobs#--create-a-job).
 
 1. In the job detail page, set **Type** to `JAR`.
 
