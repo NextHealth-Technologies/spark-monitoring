@@ -20,8 +20,8 @@ SPARK_CONF_DIR=$SPARK_HOME/conf
 tee -a "$SPARK_CONF_DIR/spark-env.sh" << EOF
 export DB_CLUSTER_ID=$DB_CLUSTER_ID
 export DB_CLUSTER_NAME=$DB_CLUSTER_NAME
-#export LOG_ANALYTICS_WORKSPACE_ID=
-#export LOG_ANALYTICS_WORKSPACE_KEY=
+# export LOG_ANALYTICS_WORKSPACE_ID=
+# export LOG_ANALYTICS_WORKSPACE_KEY=
 export AZ_SUBSCRIPTION_ID=
 export AZ_RSRC_GRP_NAME=
 export AZ_RSRC_PROV_NAMESPACE=
@@ -45,7 +45,7 @@ export AZ_RSRC_NAME=
 # or where the Message matches the message regex.  If both are specified, then both must be matched for the log to be sent.
 # Commented examples below will only log messages where the logger name is com.microsoft.pnp.samplejob.StreamingQueryListenerSampleJob or begins with
 # org.apache.spark.util.Utils, or where the Message ends with the string 'StreamingQueryListenerSampleJob' or begins with the string 'FS_CONF_COMPAT'.
-export LA_SPARKLOGGINGEVENT_NAME_REGEX="${SPARK_MONITORING_EVENT_NAME_REGEX}"
+# export LA_SPARKLOGGINGEVENT_NAME_REGEX="com\.microsoft\.pnp\.samplejob\.StreamingQueryListenerSampleJob|org\.apache\.spark\.util\.Utils.*"
 # export LA_SPARKLOGGINGEVENT_MESSAGE_REGEX=".*StreamingQueryListenerSampleJob|FS_CONF_COMPAT.*"
 
 
